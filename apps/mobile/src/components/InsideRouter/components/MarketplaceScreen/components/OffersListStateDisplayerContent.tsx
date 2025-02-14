@@ -11,6 +11,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import {useSafeAreaInsets} from 'react-native-safe-area-context'
 import {Stack, XStack, getTokens} from 'tamagui'
+import {minutesTillOffersDisplayedAtom} from '../../../../../state/contacts'
 import {
   triggerOffersRefreshAtom,
   useAreOffersLoading,
@@ -38,9 +39,14 @@ import ImportNewContactsSuggestion from './ImportNewContactsSuggestion'
 import SearchOffers from './SearchOffers'
 import TotalOffersCount from './TotalOffersCount'
 
-function ListFooterComponent(): JSX.Element {
+function ListFooterComponent(): JSX.Element | null {
   const {t} = useTranslation()
   const navigation = useNavigation()
+  const minutesTillOffersDisplayed = useAtomValue(
+    minutesTillOffersDisplayedAtom
+  )
+
+  if (minutesTillOffersDisplayed >= 0) return null
 
   return (
     <Stack mt="$4">
